@@ -3,8 +3,7 @@ class MainContainer {
   
   constructor() {
     this.template = ` 
-      <div>Hello</div>
-      <toy-container></toy-container>
+      <div ui-view></div>
     `
   }
 }

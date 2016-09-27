@@ -5,9 +5,9 @@
 
 <!-- Voir à quoi correspond le <aside> en html 5 -->
   <aside>
-    <a>
+    <a ui-sref="basket">
       <i class="mdi mdi-basket"></i>
-      <span>2</span>
+      <span ng-if="$ctrl.count" ng-bind="$ctrl.count"></span>
     </a>
   </aside>
 </header>

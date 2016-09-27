@@ -1,158 +1,33 @@
 class ToyController {
+    private reduxDisconnectFunction;
     public toys;
 
-    constructor() {
-        
+    constructor(private _$ngRedux, /*private _toyService,*/ private _toyActions) {        
     }
 
     $onInit() {
-        this.toys = [
-            {
-                "title": "ball",
-                "icon": "airballoon",
-                "price": 5
-            },
-            {
-                "title": "plane",
-                "icon": "airplane",
-                "price": 35
-            },
-            {
-                "title": "ambulance",
-                "icon": "ambulance",
-                "price": 15
-            },
-            {
-                "title": "robot",
-                "icon": "android",
-                "price": 40
-            },
-            {
-                "title": "bike",
-                "icon": "bike",
-                "price": 250
-            },
-            {
-                "title": "virus",
-                "icon": "biohazard",
-                "price": 0.5
-            },
-            {
-                "title": "bone",
-                "icon": "bone",
-                "price": 1
-            },
-            {
-                "title": "magnetophone",
-                "icon": "boombox",
-                "price": 12
-            },
-            {
-                "title": "plastic cake",
-                "icon": "cake",
-                "price": 4
-            },
-            {
-                "title": "camera",
-                "icon": "camera",
-                "price": 55
-            },
-            {
-                "title": "car",
-                "icon": "car",
-                "price": 28
-            },
-            {
-                "title": "castle",
-                "icon": "castle",
-                "price": 18
-            },
-            {
-                "title": "cat",
-                "icon": "cat",
-                "price": 12
-            },
-            {
-                "title": "chemical weapon",
-                "icon": "chemical-weapon",
-                "price": 2
-            },
-            {
-                "title": "dice",
-                "icon": "dice-5",
-                "price": 3
-            },
-            {
-                "title": "duck",
-                "icon": "duck",
-                "price": 6
-            },
-            {
-                "title": "boat",
-                "icon": "ferry",
-                "price": 32
-            },
-            {
-                "title": "fish",
-                "icon": "fish",
-                "price": 20
-            },
-            {
-                "title": "snakes",
-                "icon": "language-python",
-                "price": 12
-            },
-            {
-                "title": "rugby balloon",
-                "icon": "football-australian",
-                "price": 13
-            },
-            {
-                "title": "ghost",
-                "icon": "ghost",
-                "price": 32
-            },
-            {
-                "title": "pint",
-                "icon": "glass-mug",
-                "price": 4.5
-            },
-            {
-                "title": "playmobil",
-                "icon": "human-child",
-                "price": 12
-            },
-            {
-                "title": "jeep",
-                "icon": "jeepney",
-                "price": 3
-            },
-            {
-                "title": "panda",
-                "icon": "panda",
-                "price": 11
-            },
-            {
-                "title": "phone",
-                "icon": "phone-classic",
-                "price": 24
-            },
-            {
-                "title": "owl",
-                "icon": "owl",
-                "price": 5
-            },
-            {
-                "title": "pig",
-                "icon": "pig",
-                "price": 18
-            },
-            {
-                "title": "truck",
-                "icon": "truck",
-                "price": 10
-            }
-        ]
+        this.reduxDisconnectFunction = this._$ngRedux.connect(this.mapStateToThis, () => {})(this);
+        this._$ngRedux.dispatch(this._toyActions.getToys());
+
+        //this._toyService.getToys()
+        //    .then(result => this.toys = result.data);
+        // En faisant appel au toyActions, on délègue le chargement des toys au gestionnaire de flux => toyService n'est plus nécessaire 
+    }
+
+    // TODO: Reprendre ce mécanisme dans tous les controllers où on se connecte
+    //Sinon, on a une fuite mémoire (le state existe mais n'est plus rattaché au controller)
+    $onDestroy() {
+        this.reduxDisconnectFunction();
+    }
+
+    private mapStateToThis(state) {
+        return {
+            toys: state.toyReducer.toys
+        }
+    }
+
+    public select(toy) {
+        this._$ngRedux.dispatch(this._toyActions.selectToy(toy));
     }
 }
 
@@ -167,4 +42,5 @@ class ToyContainer {
     }
 }
 
-export default ToyContainer
+ToyController.$inject = ['$ngRedux', /*'ToyService',*/ 'ToyActions'];
+export default ToyContainer;
