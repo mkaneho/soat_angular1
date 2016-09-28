@@ -1,23 +1,28 @@
 class HeaderController {
 
-  constructor(private _$ngRedux) {
+  constructor(private _$ngRedux,
+              private _$state) {
 
   }
 
   $onInit() {
-        this._$ngRedux.connect(this.mapStateToThis, () => {})(this);
+    this._$ngRedux.connect(this.mapStateToThis, () => { })(this);
   }
 
   private mapStateToThis(state) {
-        return {
-            count: state.toyReducer.toysCount
-        }
+    return {
+      count: state.toyReducer.toysCount
     }
+  }
+
+  public goHome() {
+    this._$state.go('toys');
+  }
 }
 
 class HeaderContainer {
   public templateUrl;
-  public controller;  
+  public controller;
 
   constructor() {
     this.templateUrl = './js/containers/header/header.html';
@@ -25,5 +30,5 @@ class HeaderContainer {
   }
 }
 
-HeaderController.$inject = ['$ngRedux'];
+HeaderController.$inject = ['$ngRedux', '$state'];
 export default HeaderContainer

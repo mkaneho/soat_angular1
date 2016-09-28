@@ -1,20 +1,22 @@
 <main class="user">
 
-  <p class="message">
-    Please pay : 10&euro;
+  <p class="message" ng-if="!$ctrl.payed">
+    Please pay : {{$ctrl.total}} euro
   </p>
 
-  <p class="message">
+  <p class="message" ng-if="$ctrl.payed">
     Congrats you payed
   </p>
 
-  <form name="myform" novalidate>
+  <form name="myform" ng-if="!$ctrl.payed" novalidate>
 
     <p>
       <label for="firstname">Prénom</label>
       <input
         type="text"
         id="firstname"
+        ng-model="$ctrl.user.firstname"
+        ng-required="true"
       >
     </p>
 
@@ -23,6 +25,8 @@
       <input
         type="text"
         id="lastname"
+        ng-model="$ctrl.user.lastname"
+        ng-required="true"
       >
     </p>
 
@@ -31,6 +35,8 @@
       <input
         type="email"
         id="email"
+        ng-model="$ctrl.user.email"
+        ng-required="true"
       >
     </p>
 
@@ -39,11 +45,13 @@
       <input
         type="text"
         id="creditcard"
+        ng-model="$ctrl.user.creditcard"
+        ng-required="true"
       >
     </p>
 
     <footer>
-      <button>Pay, my friend !</button>
+      <button ng-disabled="myform.$invalid" ng-click="$ctrl.checkout()">Pay, my friend !</button>
     </footer>
 
   </form>

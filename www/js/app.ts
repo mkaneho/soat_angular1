@@ -15,6 +15,7 @@ import CheckoutContainer from './containers/checkout/checkout.container'
 import ToyComponent from './containers/toy/toy.component'
 import ToyService from './containers/toy/toy.service'
 import ToyActions from './actions/toy.actions'
+import UserActions from './actions/user.actions'
 
 angular.module('ToyStore', ['ngRedux', 'ui.router'])
   .component('mainContainer', new MainContainer())
@@ -26,6 +27,7 @@ angular.module('ToyStore', ['ngRedux', 'ui.router'])
   .service('ToyService', ToyService) // apparemment, pas besoin de faire new sur des services. comparer avec Interstellar
                                      // + le T majuscule est important dans le nommage du service, même dans la partie chaîne de caractères
   .service('ToyActions', ToyActions)
+  .service('UserActions', UserActions)
   .config(Config)
 
 //Ligne permettant de lancer/bootstrapper l'app
